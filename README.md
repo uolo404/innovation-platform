@@ -33,6 +33,20 @@ mysql -u root -p < innovation_platform.sql
 
 2. 修改 `src/main/resources/application.yml` 中的数据库、Redis、MinIO等配置
 
+3. （可选）启用统一身份认证“二次校验”（仍使用同一个用户名/密码登录表单）：
+
+```bash
+# 开关：开启后 /auth/login 会先校验本地账号，再校验统一身份认证
+UNIFIED_AUTH_ENABLED=true
+
+# 目前支持 LDAP 校验（示例值需要替换为学校实际参数）
+UNIFIED_AUTH_MODE=LDAP
+UNIFIED_AUTH_LDAP_URL=ldap://ldap.your-school.edu.cn:389
+UNIFIED_AUTH_LDAP_USER_DN_PATTERN=uid={0},ou=people,dc=your-school,dc=edu,dc=cn
+UNIFIED_AUTH_LDAP_BASE_DN=dc=your-school,dc=edu,dc=cn
+UNIFIED_AUTH_LDAP_SEARCH_FILTER=(uid={0})
+```
+
 ### 运行
 
 ```bash

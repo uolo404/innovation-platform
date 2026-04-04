@@ -14,11 +14,6 @@ public class Constants {
     public static final String ROLE_COLLEGE_ADMIN = "COLLEGE_ADMIN";
     public static final String ROLE_SCHOOL_ADMIN = "SCHOOL_ADMIN";
 
-    // 认证方式
-    public static final String AUTH_TYPE_LOCAL = "LOCAL";
-    public static final String AUTH_TYPE_CAS = "CAS";
-    public static final String AUTH_TYPE_BOTH = "BOTH";
-
     // 项目状态
     public static final String PROJECT_STATUS_DRAFT = "DRAFT";
     public static final String PROJECT_STATUS_PENDING = "PENDING";

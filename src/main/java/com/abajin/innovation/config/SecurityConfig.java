@@ -61,7 +61,6 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/login", "/auth/register").permitAll()
-                .requestMatchers("/auth/cas/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/teams", "/teams/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/colleges").permitAll()

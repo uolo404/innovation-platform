@@ -18,6 +18,10 @@
         SELECT * FROM college ORDER BY create_time DESC
     </select>
 
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT * FROM college WHERE name = #{name} LIMIT 1
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO college (name, code, description, create_time, update_time)
         VALUES (#{name}, #{code}, #{description}, #{createTime}, #{updateTime})

@@ -40,7 +40,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional(readOnly = true)
+    @Autowired
+    private UnifiedAuthVerifier unifiedAuthVerifier;
+
+    @Transactional
     public String login(LoginDTO loginDTO) {
         User user = userMapper.selectByUsername(loginDTO.getUsername());
         if (user == null) {
@@ -54,6 +57,35 @@ public class UserService {
 
         if (user.getStatus() == Constants.USER_STATUS_DISABLED) {
             throw new RuntimeException("账户已被禁用");
+        }
+
+        // 二次校验：统一身份认证（仍使用同一个用户名/密码）
+        UnifiedAuthVerifier.UnifiedIdentity identity = unifiedAuthVerifier.verify(loginDTO.getUsername(), loginDTO.getPassword());
+        if (identity != null && identity.isEnabled()) {
+            User patch = new User();
+            patch.setId(user.getId());
+
+            boolean needUpdate = false;
+
+            if (identity.getName() != null && !identity.getName().isEmpty()
+                    && (user.getRealName() == null || !identity.getName().equals(user.getRealName()))) {
+                patch.setRealName(identity.getName());
+                needUpdate = true;
+            }
+
+            if (identity.getCollegeName() != null && !identity.getCollegeName().isEmpty()
+                    && (user.getCollegeName() == null || !identity.getCollegeName().equals(user.getCollegeName()))) {
+                patch.setCollegeName(identity.getCollegeName());
+                var college = collegeMapper.selectByName(identity.getCollegeName());
+                if (college != null) {
+                    patch.setCollegeId(college.getId());
+                }
+                needUpdate = true;
+            }
+
+            if (needUpdate) {
+                userMapper.update(patch);
+            }
         }
 
         return jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());

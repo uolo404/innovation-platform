@@ -12,9 +12,6 @@
         <result column="college_id" property="collegeId"/>
         <result column="college_name" property="collegeName"/>
         <result column="status" property="status"/>
-        <result column="auth_type" property="authType"/>
-        <result column="cas_uid" property="casUid"/>
-        <result column="is_profile_complete" property="isProfileComplete"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
@@ -31,14 +28,6 @@
         SELECT * FROM user WHERE real_name = #{realName}
     </select>
 
-    <select id="selectByCasUid" resultMap="BaseResultMap">
-        SELECT * FROM user WHERE cas_uid = #{casUid}
-    </select>
-
-    <select id="selectByRealNameAndAuthType" resultMap="BaseResultMap">
-        SELECT * FROM user WHERE real_name = #{realName} AND auth_type = #{authType}
-    </select>
-
     <select id="selectByCollegeId" resultMap="BaseResultMap">
         SELECT * FROM user WHERE college_id = #{collegeId}
     </select>
@@ -52,8 +41,8 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user (username, password, real_name, email, phone, role, college_id, college_name, status, auth_type, cas_uid, is_profile_complete, create_time, update_time)
-        VALUES (#{username}, #{password}, #{realName}, #{email}, #{phone}, #{role}, #{collegeId}, #{collegeName}, #{status}, #{authType}, #{casUid}, #{isProfileComplete}, #{createTime}, #{updateTime})
+        INSERT INTO user (username, password, real_name, email, phone, role, college_id, college_name, status, create_time, update_time)
+        VALUES (#{username}, #{password}, #{realName}, #{email}, #{phone}, #{role}, #{collegeId}, #{collegeName}, #{status}, #{createTime}, #{updateTime})
     </insert>
 
     <update id="update">
@@ -68,9 +57,6 @@
             <if test="collegeId != null">college_id = #{collegeId},</if>
             <if test="collegeName != null">college_name = #{collegeName},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="authType != null">auth_type = #{authType},</if>
-            <if test="casUid != null">cas_uid = #{casUid},</if>
-            <if test="isProfileComplete != null">is_profile_complete = #{isProfileComplete},</if>
             update_time = NOW()
         </set>
         WHERE id = #{id}

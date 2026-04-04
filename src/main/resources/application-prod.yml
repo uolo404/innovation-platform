@@ -54,12 +54,18 @@ jwt:
   secret: ${JWT_SECRET:innovation-platform-secret-key-2024}
   expiration: ${JWT_EXPIRATION:86400000}
 
-# CAS统一身份认证配置
-cas:
-  enabled: ${CAS_ENABLED:false}
-  server-url-prefix: ${CAS_SERVER_URL_PREFIX:http://ids.wisedu.com.cn:9086/authserver}
-  server-login-url: ${cas.server-url-prefix}/login
-  client-host-url: ${CAS_CLIENT_HOST_URL:http://localhost:8080/api}
+# 统一身份认证（与本地账号密码登录串行校验）
+unified-auth:
+  enabled: ${UNIFIED_AUTH_ENABLED:false}
+  mode: ${UNIFIED_AUTH_MODE:LDAP}
+  ldap:
+    url: ${UNIFIED_AUTH_LDAP_URL:}
+    user-dn-pattern: ${UNIFIED_AUTH_LDAP_USER_DN_PATTERN:}
+    base-dn: ${UNIFIED_AUTH_LDAP_BASE_DN:}
+    search-filter: ${UNIFIED_AUTH_LDAP_SEARCH_FILTER:(uid={0})}
+    uid-attr: ${UNIFIED_AUTH_LDAP_UID_ATTR:uid}
+    name-attr: ${UNIFIED_AUTH_LDAP_NAME_ATTR:cn}
+    college-attr: ${UNIFIED_AUTH_LDAP_COLLEGE_ATTR:ou}
 
 # 日志配置
 logging:

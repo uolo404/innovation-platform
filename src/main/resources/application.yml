@@ -55,13 +55,23 @@ jwt:
   secret: innovation-platform-secret-key-2024
   expiration: 86400000 # 24小时
 
-# CAS统一身份认证配置
-cas:
-  enabled: true  # 是否启用CAS功能，默认关闭
-  mock-mode: true  # Mock模式，只用于本地测试（无需真实CAS服务器）
-  server-url-prefix: http://ids.wisedu.com.cn:9086/authserver #写学校的CAS服务器地址
-  server-login-url: ${cas.server-url-prefix}/login
-  client-host-url: http://localhost:8080/api
+# 统一身份认证（与本地账号密码登录串行校验）
+# 用户仍使用同一个用户名/密码表单登录；后端会先校验本地数据库账号，再校验统一身份认证。
+unified-auth:
+  enabled: ${UNIFIED_AUTH_ENABLED:false}
+  # 目前支持：LDAP（通过LDAP校验用户名密码，并读取基本属性）
+  mode: ${UNIFIED_AUTH_MODE:LDAP}
+  ldap:
+    url: ${UNIFIED_AUTH_LDAP_URL:}
+    # 示例：uid={0},ou=people,dc=your-school,dc=edu,dc=cn
+    user-dn-pattern: ${UNIFIED_AUTH_LDAP_USER_DN_PATTERN:}
+    # 示例：dc=your-school,dc=edu,dc=cn（用于search，建议配置）
+    base-dn: ${UNIFIED_AUTH_LDAP_BASE_DN:}
+    # 示例：(uid={0}) 或 (sAMAccountName={0})
+    search-filter: ${UNIFIED_AUTH_LDAP_SEARCH_FILTER:(uid={0})}
+    uid-attr: ${UNIFIED_AUTH_LDAP_UID_ATTR:uid}
+    name-attr: ${UNIFIED_AUTH_LDAP_NAME_ATTR:cn}
+    college-attr: ${UNIFIED_AUTH_LDAP_COLLEGE_ATTR:ou}
 
 # 文件上传路径
 #file:

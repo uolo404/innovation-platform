@@ -97,6 +97,14 @@ MINIO_SECRET_KEY=your-secret-key
 JWT_SECRET=your-jwt-secret-key-change-this
 JWT_EXPIRATION=86400000
 
+# 统一身份认证二次校验（可选）
+UNIFIED_AUTH_ENABLED=false
+UNIFIED_AUTH_MODE=LDAP
+UNIFIED_AUTH_LDAP_URL=ldap://ldap.your-school.edu.cn:389
+UNIFIED_AUTH_LDAP_USER_DN_PATTERN=uid={0},ou=people,dc=your-school,dc=edu,dc=cn
+UNIFIED_AUTH_LDAP_BASE_DN=dc=your-school,dc=edu,dc=cn
+UNIFIED_AUTH_LDAP_SEARCH_FILTER=(uid={0})
+
 # GitHub 用户名（用于镜像路径）
 GITHUB_OWNER=your-github-username
 EOF

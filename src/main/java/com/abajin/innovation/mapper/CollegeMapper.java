@@ -22,6 +22,11 @@ public interface CollegeMapper {
     List<College> selectAll();
 
     /**
+     * 根据名称查询学院
+     */
+    College selectByName(@Param("name") String name);
+
+    /**
      * 插入学院
      */
     int insert(College college);
